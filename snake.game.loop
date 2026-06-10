@@ -1,0 +1,29 @@
+import pygame, sys
+pygame.init()
+
+screen = pygame.display.set_mod((750, 750))
+clock = pygame.time.Clock()
+
+START_POSITIONS = [(0, 0)(20, 0)(40, 0)(60, 0)]
+self.current_direction = "up"
+
+MOVE_DISTANCE = 30
+
+cell_size = 30
+number_of_cells = 25
+
+DIRECTIONS = {
+    "up" = ( 0, MOVE_DISTANCE),
+    "down" = ( 0, -MOVE_DISTANCE),
+    "left" = ( -MOVE_DISTANCE, 0),
+    "right" = ( MOVE_DISTANCE, 0)
+}
+
+
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+        pygame.quit()
+        sys.exit()
+
+    clock.tick(60)

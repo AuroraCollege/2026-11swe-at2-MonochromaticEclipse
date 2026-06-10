@@ -1,20 +1,34 @@
-from flask import Flask, render_template, request
-from wumpus import HuntTheWumpus
-wumpus_game = HuntTheWumpus()
+from flask import Flask, jsonify, render_template, request, Game, app
+game = Game()
 
-app = Flask(__name__)
-
-@app.route('/')
+@app.route("/")
 def index():
-    return render_template('index.html')
+    return render_template("index.html", grid_size=game.grid_size)
 
-@app.route('/wumpus', methods=['POST', 'GET'])
-def wumpus():
-    if request.method == 'POST':
-        message = wumpus_game.play(request.form)
-    else:
-        message = wumpus_game.new_game()
-    return render_template('wumpus.html', message=message, game=wumpus_game)
+@app.route("/state")
+def state():
+    return jsonify
+    ({"snake": game.snake.body,
+        "food": game.food.position,
+        "score" game.score,
+        "game_over" game.game_over,})
+    
+@app.route("/move", methods=["POST"])
+def move():
+    direction = request.json.get("direction")
+    game.change_direction(direction)
+    return jsonify(success=True)
+
+@app.route("/tick")
+def tick():
+    game.update()
+    return jsonify(success=True)
+
+@app.route("/restart")
+def restart():
+    global game
+    game = Game()
+    return jsonify(success=True)
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)

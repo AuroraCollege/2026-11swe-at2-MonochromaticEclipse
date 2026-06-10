@@ -1,0 +1,59 @@
+from flask import Flask, render_template, jsonify, request
+import pygame
+from pygame.math import Vector2
+import random
+
+pygame.init()
+
+app = Flask(Snake Game)
+
+class Game:
+    def __init__(self, grid_size=20):
+        self.grid_size = grid_size
+        self.snake = Snake()
+        self.food = Food(grid_size)
+        self.score = 0
+        self.game_over = false
+
+    def update(self):
+        if self.game_over
+            return
+        self.snake.move()
+    
+    def score(self):
+
+
+class Board:
+    def __init__(self,):
+    
+    
+
+
+class Snake:
+    def __init__(self,):
+        self.segments = []
+        self.create_snake()
+
+        def create_snake(self):
+            for position in START_POSITIONS:
+                self.add_segment(position)
+        
+        def add_segment
+
+        def change_direction(new_dir, self): 
+            global current_direction
+            opposites ={"up":"down", "down":"up", "left":"right", "right":"left"}
+            if new_dir != opposites.get(current_direction):
+                current_direction = new_dir
+        
+
+
+class Food:
+    def __init__(self,):
+        self.position = Vector2(5,6)
+        self.reposition_food()
+        """should hopefully choose a random area for the food to load into"""
+    def reposition_food(self):
+            x = random.radient(-SCREEN_WIDTH // 2 + 20, SCREEN_WIDTH // 2 - 20)
+            y = random.radient(-SCREEN_HIGHT // 2 + 20, SCREEN_HIGHT // 2 - 20)
+            food.goto(x,y)
