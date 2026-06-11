@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template, request, Game, app
+from flask import Flask, jsonify, render_template, request, app
 game = Game()
 
 @app.route("/")
@@ -7,11 +7,11 @@ def index():
 
 @app.route("/state")
 def state():
-    return jsonify
+    return jsonify 
     ({"snake": game.snake.body,
-        "food": game.food.position,
-        "score" game.score,
-        "game_over" game.game_over,})
+    "food": game.food.position,
+    "score" game.score,
+    "game_over" game.game_over,})
     
 @app.route("/move", methods=["POST"])
 def move():

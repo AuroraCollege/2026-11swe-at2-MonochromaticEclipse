@@ -1,3 +1,4 @@
+
 from flask import Flask, render_template, jsonify, request
 import pygame
 from pygame.math import Vector2
@@ -7,13 +8,19 @@ pygame.init()
 
 app = Flask(Snake Game)
 
-class Game:
+class Snake Game:
     def __init__(self, grid_size=20):
         self.grid_size = grid_size
         self.snake = Snake()
         self.food = Food(grid_size)
         self.score = 0
+        self.new_game()
         self.game_over = false
+
+    def new_game(self):
+        self.game_on = True
+        return "Welcome to Snake Game!"
+        
 
     def update(self):
         if self.game_over
@@ -22,38 +29,129 @@ class Game:
     
     def score(self):
 
+    def play_text(self):
+        message = 'to move, press the Up, Down, Left and Right keys!'
+
+    def game_over(screen):
+        font = pygame.font.Font(None, 36)
+        text = font.render('Game Over!', True, WHITE)
+        text_rect = text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
+        screen.blit(text, text_rect)
+        pygame.display.flip()
+
+        while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    main()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:  # left mouse button
+                
 
 class Board:
     def __init__(self,):
     
-    
+
+class Player:
+    def __init__(self):
+    self.score = 0   
 
 
 class Snake:
-    def __init__(self,):
-        self.segments = []
+    def __init__(self, location):
+        self.grow = False
         self.create_snake()
 
-        def create_snake(self):
-            for position in START_POSITIONS:
-                self.add_segment(position)
-        
-        def add_segment
+    def move(self):
+        head_x, head_y = self.positions[0]
+        new_head = (head_x + self.direction[0], head_y + self.direction[1])
+        self.positions.insert(0, new_head)
+        if not self.grow:
+            self.positions.pop()
+        else:
+            self.grow = False
 
-        def change_direction(new_dir, self): 
-            global current_direction
-            opposites ={"up":"down", "down":"up", "left":"right", "right":"left"}
-            if new_dir != opposites.get(current_direction):
-                current_direction = new_dir
+        
+        def grow_snake(self):
+            self.grow = True
+            
+
+        def change_direction(self, direction): 
+            if direction == 'UP' and self.direction != (0, 1):
+                self.direction = (0, -1)
+            elif direction == 'DOWN' and self.direction != (0, -1):
+                self.direction = (0, 1)
+            elif direction == 'LEFT' and self.direction != (1, 0):
+                self.direction = (-1, 0)
+            elif direction == 'RIGHT' and self.direction != (-1, 0):
+                self.direction = (1, 0)
+
+        def check_collision(snake):
+            head_x, head_y = snake.position[0]
+            if head_x <0 or head_y >= grid_size or head_y < 0 or head_y >= grid_size:
+                return True
+            if len(snake.positions) != len(set(snake.positions)):
+                return True
+            return False
         
 
 
 class Food:
-    def __init__(self,):
+    def __init__(self, location):
         self.position = Vector2(5,6)
         self.reposition_food()
-        """should hopefully choose a random area for the food to load into"""
+        fruit_spawn = True
+
+    def place_food():
+        food = (random.randint(0, GRID_WIDTH - 1), random.randint(0, GRID_HEIGHT - 1))
+        return food
+
+    """should hopefully choose a random area for the food to load into"""
     def reposition_food(self):
             x = random.radient(-SCREEN_WIDTH // 2 + 20, SCREEN_WIDTH // 2 - 20)
             y = random.radient(-SCREEN_HIGHT // 2 + 20, SCREEN_HIGHT // 2 - 20)
             food.goto(x,y)
+
+
+def main():
+    pygame.init()
+    clock = pygame.time.Clock()
+
+    snake = Snake()
+    food = place_food()
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP:
+                    snake.change_direction('UP')
+                elif event.key == pygame.K_DOWN:
+                    snake.change_direction('DOWN')
+                elif event.key == pygame.K_LEFT:
+                    snake.change_direction('LEFT')
+                elif event.key == pygame.K_RIGHT:
+                    snake.change_direction('RIGHT')
+
+        snake.move()
+
+        if snake.positions[0] == food:
+            snake.grow_snake()
+            food = place_food()
+
+        if check_collision(snake):
+            game_over(screen, clock)
+
+        screen.fill(BLACK)
+        draw_snake(screen, snake)
+        draw_food(screen, food)
+        pygame.display.flip()
+        clock.tick(10)
+
+if __name__ == '__main__':
+    main()
