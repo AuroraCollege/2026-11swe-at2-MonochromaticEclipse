@@ -16,11 +16,19 @@ class Snake Game:
         self.score = 0
         self.new_game()
         self.game_over = false
+        clock = pygame.time.Clock()
+    
+    DIRECTIONS = {
+    "up" = ( 0, MOVE_DISTANCE),
+    "down" = ( 0, -MOVE_DISTANCE),
+    "left" = ( -MOVE_DISTANCE, 0),
+    "right" = ( MOVE_DISTANCE, 0)
+    }
+
 
     def new_game(self):
         self.game_on = True
         return "Welcome to Snake Game!"
-        
 
     def update(self):
         if self.game_over
@@ -44,15 +52,13 @@ class Snake Game:
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN:
-                    main()
-            elif event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:  # left mouse button
+        clock.tick(60)
                 
 
 class Board:
     def __init__(self,):
+        cell_size = 30
+        number_of_cells = 25
     
 
 class Player:
@@ -60,10 +66,13 @@ class Player:
     self.score = 0   
 
 
-class Snake:
+class Snake(player):
     def __init__(self, location):
         self.grow = False
         self.create_snake()
+        self.START_POSITIONS = [(0, 0)(20, 0)(40, 0)(60, 0)]
+        self.current_direction = "up"
+        self.MOVE_DISTANCE = 30
 
     def move(self):
         head_x, head_y = self.positions[0]
