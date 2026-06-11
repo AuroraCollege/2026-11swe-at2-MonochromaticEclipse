@@ -10,8 +10,8 @@ def state():
     return jsonify 
     ({"snake": game.snake.body,
     "food": game.food.position,
-    "score" game.score,
-    "game_over" game.game_over,})
+    "score": game.score,
+    "game_over": game.game_over,})
     
 @app.route("/move", methods=["POST"])
 def move():
