@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Snake Game</title>
+    <style> 
+        canvas {background: #000; display: block; margin: auto;}
+        body {text-align: center; font-family: Arial; color: white; background: #222;}
+    </style>
+</head>
+<body>
+    <h1>Snake Game</h1>
+    <p>Score: <span id="score">0</span></p>
+    <canvas id="gameCanvas" width="750" height="750"></canvas>
+    <p id="gameOver" style="display: none;" Game Over! Press ENTER to play again!></p></body>
+
+    <script> 
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+        const gridSize = {grid_size};
+        const cellSize = canvas.width / gridSize;
+
+        document.addEventListener("keydown", e => {
+            const map = { ArrowUp: "UP", ArrowDown: "DOWN", ArrowLeft: "LEFT", ArrorRight: "RIGHT"};
+            if (map[e.key]) {
+                fetch("/move", { method: "POST", headers:{"Content-Type": "application/json"},
+                    body: JSON.stringify({ directions: map[e.key] }) });
+            }
+            if (e.key === "Enter") {
+                fetch("/restart").then(() => document.getElementById("gameOver").style.display = "none");
+            }
+        } );
+
+        function draw(state) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            GREEN = (173, 204, 96)
+            DARK_GREEN = (43, 51, 24)
+            ctx.fillStyle = "GREEN";
+            state.snake.forEach(([x, y]) => ctx.fillRect(x * cellSize, y * cellSize, cellSize, cellSize));
+            ctx.fillStyle = "DARK_GREEN";
+            ctx.fillRect(state.food[0] * cellSize, state.food[1] * cellSize, cellSize, cellSize);
+            document.getElementById("score").textContent = state.score;
+            if (state.gameOver) {
+                document.getElementById("gameOver").style.display = "block";
+            }
+        }
+
+        function gameLoop() {
+            fetch("/tick").then(() => {
+                fetch("/state").then(res => res.json()).then(draw);
+            });
+        }
+
+        setInterval(gameLoop, 150);
+    </script>
+</body>
+</html>
